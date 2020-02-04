@@ -1,47 +1,35 @@
 import React from 'react'
-import { NextPage } from 'next'
-import { connect, Dispatch } from 'react-redux'
+import { NextComponentType } from 'next'
+import { connect } from 'react-redux'
 import Layout from '../layout'
-import { getInfoJSON } from '../redux/action'
-import { Action } from '../redux/store/root-reducer'
-import { infoJSONurl } from '../redux/constant'
-
+import { getInfoJSON, setEditorMode } from '../redux/action'
+import { InfoJSON } from '../redux/constant'
+import SearchWidget from '../components/searchWdiget'
+import { NextJSAppContext  } from 'next-redux-wrapper'
 
 interface HomeProps {
-    luckyNumber: number
-    dispatch: Dispatch<Action>
+    infoJSON: InfoJSON
+    editorMode: boolean
 }
 
-const Home: NextPage<HomeProps> = (props) => {
-    const { luckyNumber } = props
-    console.log(props)
 
-    const putJSON = () => {
-        fetch(infoJSONurl, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'text/plain',
-            },
-            body: JSON.stringify({ some: 'ai nane nane' }),
-        })
-    }
+const Home: NextComponentType<NextJSAppContext, {}, HomeProps> = (props) => {
+    const { editorMode, infoJSON } = props
 
     return (
         <Layout>
-            <p>{luckyNumber}</p>
-            <button
-                onClick={() => props.dispatch(getInfoJSON())}
-            >
-                {`GET`}
-            </button>
-
-            <button
-                onClick={() => putJSON()}
-            >
-                {`PUT`}
-            </button>
+           <SearchWidget
+                infoJSON={infoJSON}
+                editorMode={editorMode}
+            />
         </Layout>
     )
+}
+
+
+Home.getInitialProps = async ({ ctx }) => {
+    ctx.store.dispatch(getInfoJSON())
+    ctx.store.dispatch(setEditorMode(false))
 }
 
 export default connect(state => state)(Home)

@@ -1,6 +1,8 @@
 import React from 'react'
 import Head from 'next/head'
 import { content } from '../redux/constant'
+import Header from '../components/header'
+import Main from '../components/main'
 import '../style/reset-browser.scss'
 import '../style/style.scss'
 
@@ -18,10 +20,10 @@ const Layout: React.FC<LayoutProps> = (props) => {
                     {content.task.title}
                 </title>
             </Head>
-            <header>header</header>
-            <main>
-                {children && children}
-            </main>
+            <Header />
+            <Main>
+                {children}
+            </Main>
         </>
     )
 }

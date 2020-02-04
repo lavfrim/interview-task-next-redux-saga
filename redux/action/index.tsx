@@ -1,17 +1,12 @@
 import {
-    SET_LUCKY_NUMBER,
     REQUESTED_JSON,
     SET_LOADING,
     REQUESTED_JSON_SUCCEEDED,
     REQUESTED_JSON_FAILED,
-    InfoJSON
+    InfoJSON,
+    SET_EDITOR_MOD,
+    PUT_CONTENT_JSON
 } from '../constant'
-
-
-export const seTLuckyNumber = (newLuckyNumber: number) => ({
-    type: SET_LUCKY_NUMBER,
-    payload: newLuckyNumber
-} as const)
 
 export const getInfoJSON = () => ({
     type: REQUESTED_JSON,
@@ -32,3 +27,15 @@ export const setError = (status: boolean) => ({
     type: REQUESTED_JSON_FAILED,
     payload: status
 } as const)
+
+export const setEditorMode = (status: boolean) => ({
+    type: SET_EDITOR_MOD,
+    payload: status
+} as const)
+
+export const putContentJSON = (contentJSON) => ({
+    type: PUT_CONTENT_JSON,
+    payload: contentJSON
+} as const)
+
+
