@@ -45,7 +45,7 @@ function rootReducer(state = initialState, action: Action): ReduxState {
         case REQUESTED_JSON_FAILED:
             return {
                 ...state,
-                loading: false,
+                loading: true,
                 error: action.payload,
             }
         case SET_EDITOR_MOD:

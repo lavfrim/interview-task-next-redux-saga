@@ -7,7 +7,6 @@ import withReduxSaga from 'next-redux-saga'
 import { ReduxState } from '../redux/store/root-reducer'
 
 
-
 interface MyAppProps {
     store: ReduxState
 }

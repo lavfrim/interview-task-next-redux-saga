@@ -7,30 +7,36 @@ import { getInfoJSON, setEditorMode, putContentJSON, setInfoJSON } from '../redu
 import { Action } from '../redux/store/root-reducer'
 import { InfoJSON, content } from '../redux/constant'
 import SearchWidget from '../components/searchWdiget'
+import Spinner from '../components/spinner'
 
 
 interface EditorProps {
     infoJSON: InfoJSON
     dispatch: Dispatch<Action>
     editorMode: boolean
+    loading: boolean
 }
 
+const blockName='editor-page'
 
 const Editor: NextComponentType<NextJSAppContext, {}, EditorProps> = (props) => {
-    const { infoJSON, dispatch, editorMode } = props
+    const { infoJSON, dispatch, editorMode, loading } = props
     const [contentJSON, setContentJSON] = React.useState<InfoJSON | null>(null)
 
     return (
         <Layout>
-            <p>{content.editorModeMessage}</p>
+            <p className={`${blockName}__message`}>{content.editorModeMessage}</p>
 
+            {loading ? 
+            <Spinner /> : 
             <SearchWidget
                 infoJSON={infoJSON}
                 editorMode={editorMode}
                 setContentJSON={setContentJSON}
-            />
+            />}
 
             <button
+                className={`${blockName}__apply-button`}
                 onClick={() => {
                     if (contentJSON !== null) {
                         dispatch(putContentJSON(contentJSON))

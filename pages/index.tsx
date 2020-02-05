@@ -6,22 +6,26 @@ import { getInfoJSON, setEditorMode } from '../redux/action'
 import { InfoJSON } from '../redux/constant'
 import SearchWidget from '../components/searchWdiget'
 import { NextJSAppContext  } from 'next-redux-wrapper'
+import Spinner from '../components/spinner'
 
 interface HomeProps {
     infoJSON: InfoJSON
     editorMode: boolean
+    loading: boolean
 }
 
 
 const Home: NextComponentType<NextJSAppContext, {}, HomeProps> = (props) => {
-    const { editorMode, infoJSON } = props
+    const { editorMode, infoJSON, loading } = props
 
     return (
         <Layout>
-           <SearchWidget
+            {loading ? 
+            <Spinner /> : 
+            <SearchWidget
                 infoJSON={infoJSON}
                 editorMode={editorMode}
-            />
+            />}
         </Layout>
     )
 }

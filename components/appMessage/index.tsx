@@ -8,13 +8,15 @@ interface AppMessageProps {
     loading: boolean
 }
 
+const blockName = 'app-message'
+
 const AppMessage: React.FC<AppMessageProps> = (props) => {
     return (
-        <div>
+        <div className={blockName}>
             {props.error && 
-            <p>{content.errorMessage}</p>}
+            <p className={`${blockName}__error`}>{content.errorMessage}</p>}
             {props.loading && 
-            <p>{content.loadingMessage}</p>}
+            <p className={`${blockName}__loading`}>{content.loadingMessage}</p>}
         </div>
     )
 }

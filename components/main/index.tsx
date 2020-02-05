@@ -4,9 +4,11 @@ interface MainProps {
     children: React.ReactNode
 }
 
+const blockName = 'main'
+
 const Main: React.FC<MainProps> = (props) => {
     return (
-        <main>
+        <main className={blockName}>
            {props.children}
         </main>
     )

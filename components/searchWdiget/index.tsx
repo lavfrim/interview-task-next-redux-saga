@@ -5,11 +5,14 @@ import lodash from 'lodash'
 
 interface SearchWidgetProps {
     infoJSON: InfoJSON
-    editorMode: boolean
+    editorMode?: boolean
     setContentJSON?: React.Dispatch<React.SetStateAction<InfoJSON>>
+    blockName?: string
 }
 
 type PlaceName = keyof InfoJSON
+
+const blockName = 'search-widget'
 
 const SearchWidget: React.FC<SearchWidgetProps> = (props) => {
     const [isOpenFilters, setIsOpenFilters] = useState<Boolean>(false)
@@ -29,7 +32,7 @@ const SearchWidget: React.FC<SearchWidgetProps> = (props) => {
         applyButtonLabel,
         discardButtonLabel
     } = cnt
-    const { editorMode, setContentJSON } = props
+    const { editorMode = false, setContentJSON } = props
 
     const multiSelectvalue = multiTags.length > 0 ? multiTags.join(', ').slice() : ''
 
@@ -116,73 +119,88 @@ const SearchWidget: React.FC<SearchWidgetProps> = (props) => {
     }
 
     return (
-        <>
-            <form
-                onSubmit={(event): void => handleSubmit(event)}
-            >
-                <div>
+        <form
+            className={blockName}
+            onSubmit={(event): void => handleSubmit(event)}
+        >
+            <div className={`${blockName}__main-view`}>
+                <div className={`${blockName}__main-view__search-block`}>
                     <p
+                        className={`${blockName}__main-view__search-block__label`}
                         onClick={(event) => {handleSearchPhraseLabelClick(event)}}
                     >
                         {searchPhraseLabel.value}
                     </p>
                     <input
+                        className={`${blockName}__main-view__search-block__input`}
                         ref={textInput}
                         type="text"
                     />
                 </div>
 
                 <button
+                    className={`${blockName}__main-view__filter-button`}
                     onClick={(event) => handleFilterClick(event)}
                     ref={filterButton}
                 >
                     {filtersButtonLabel.value}
                 </button>
+            </div>
 
-                {isOpenFilters && 
-                <div>
-                    <div>
+            {isOpenFilters && 
+            <div className={`${blockName}__filter-options`}>
+                <div className={`${blockName}__filter-options__inputs`}>
+                    <div className={`${blockName}__filter-options__category-block`}>
                         <p
+                            className={`${blockName}__filter-options__category-block__label`}
                             onClick={(event) => handleCategoryLabelClick(event)}
                         >
                             {categoryLabel.value}
                         </p>
                         <input
+                            className={`${blockName}__filter-options__category-block__input`}
                             ref={multySelect}
                             type="text"
                             onMouseDown={(event) => handleMultiSelectClick(event)}
-                            value={multiSelectvalue}
+                            defaultValue={multiSelectvalue}
                         />
                         {isOpenMultiSelect && 
-                        <ul onMouseLeave={() => setIsOpenMultiSelect(false)}>
+                        <ul 
+                            className={'drop-down'}
+                            onMouseLeave={() => setIsOpenMultiSelect(false)}>
                             {content.category.map((item) => 
                             <li
+                                className={'drop-down__item'}
                                 key={item}
                                 onClick={(event) => handleSelectClick(event)}
-                                style={{backgroundColor: multiTags.includes(item) ? "gray" : "inherit"}}
+                                style={{backgroundColor: multiTags.includes(item) ? "#fed96a60" : "inherit"}}
                             >
                                 {item}
                             </li>)}
                         </ul>} 
                     </div>
                     
-                    <div>
+                    <div className={`${blockName}__filter-options__price-block`}>
                         <p
+                            className={`${blockName}__filter-options__price-block__label`}
                             onClick={(event) => {handlePriceLabelClick(event)}}
                         >
                             {priceLabel.value}
                         </p>
                         <select
+                            className={`${blockName}__filter-options__price-block__input`}
                             ref={singleSelect}
                         >
                             {content.price.length > 0 &&
                             content.price.map((item) => 
                             <option key={item}>{item}</option>)}
                         </select>    
-                    </div>                
+                    </div>  
+                </div>              
 
-
+                <div className={`${blockName}__filter-options__buttons-block`}>
                     <button
+                        className={`${blockName}__filter-options__buttons-block__button-apply`}
                         onSubmit={(event) => handleSubmit(event)}
                         onClick={(event) => handleApplyButtonLabelClick(event)}
                     >
@@ -190,20 +208,23 @@ const SearchWidget: React.FC<SearchWidgetProps> = (props) => {
                     </button>
 
                     <button
+                        className={`${blockName}__filter-options__buttons-block__button-discard`}
                         onClick={(event) => handleDiscardClick(event)}
                     >
                         {discardButtonLabel.value}
                     </button>
+                </div>
 
-                    <div>
-                        {tags.length > 0 && tags.map((tag) => 
-                        <div key={tag}>
-                            {tag !== '' && <p>{`#${tag}`}</p>}
-                        </div>)}
-                    </div>
-                </div>}
-            </form>
-        </>
+                <div className={`${blockName}__tags-block`}>
+                    {tags.length > 0 && tags.map((tag) => {
+                        return (tag !== '' && 
+                        <div className={`${blockName}__tags-block__item`} key={tag}>
+                            {<p>{`#${tag}`}</p>}
+                        </div>)
+                    })}
+                </div>
+            </div>}
+        </form>
     )
 }
 

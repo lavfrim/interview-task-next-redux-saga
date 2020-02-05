@@ -1,4 +1,4 @@
-import {createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware, { Task } from 'redux-saga'
 import rootReducer from './root-reducer'
 import rootSaga from './root-saga'

@@ -20,7 +20,7 @@ function* getAsyncInfoJSON() {
     const data = yield call(() => {
         return fetch(infoJSONurl).then(res => res.json())
       }
-    )  
+    )
     
     yield put(setInfoJSON(data))
   } catch (error) {
